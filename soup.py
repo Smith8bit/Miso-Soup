@@ -27,31 +27,32 @@ def get_a_thing_done(page: int, URL: str):
     # url = "https://www.kayak.com/hotels/Tokyo,Tokyo-Prefecture,Japan-c21033/2026-01-01/2026-01-02/1adults"
     driver.get(URL)
 
-    hotel_list = {}
+    hotel_list = []
     time.sleep(30)
     wait = WebDriverWait(driver, 20)
 
     for i in range(page):
-        # ratings = []
-        # scores = []
-        # stars =[]
+        ratings = []
+        scores = []
+        stars =[]
         names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
-        # reviews = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "DOkx")))
-        # for review in reviews:
-        #     rinfo = review.text.split('\n')
-        #     if len(rinfo) == 2:
-        #         rr, rs = rinfo
-        #         star = "0 stars"
-        #     if len(rinfo) == 3:
-        #         rr, rs, star = rinfo
-        #     ratings.append(rr)
-        #     scores.append(rs)
-        #     stars.append(star)
+        reviews = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "DOkx")))
+        for review in reviews:
+            rinfo = review.text.split('\n')
+            if len(rinfo) == 2:
+                rr, rs = rinfo
+                star = "0 stars"
+            if len(rinfo) == 3:
+                rr, rs, star = rinfo
+            ratings.append(rr)
+            scores.append(rs)
+            stars.append(star)
         prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
-        # locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
+        locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
         for j in range(len(names)):
-            hotel_list[names[j].text] = prices[j].text 
-            
+            hotel_data = (names[j].text, ratings[j], scores[j], stars[j], prices[j].text, locations[j].text)
+            hotel_list.append(hotel_data)
+
         driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
     driver.quit()
 
