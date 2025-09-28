@@ -8,7 +8,7 @@ import time
 options = webdriver.ChromeOptions()
 options.add_argument("start-maximized")
 
-options.add_argument("--headless")
+#options.add_argument("--headless")
 
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
@@ -23,16 +23,15 @@ stealth(driver,
         fix_hairline=True,
         )
 
-def get_a_thing_done(URL):
-    url = str(URL)
+def get_a_thing_done(page: int, URL: str):
     # url = "https://www.kayak.com/hotels/Tokyo,Tokyo-Prefecture,Japan-c21033/2026-01-01/2026-01-02/1adults"
-    driver.get(url)
+    driver.get(URL)
 
     hotel_list = {}
-    time.sleep(20)
-    wait = WebDriverWait(driver)
+    time.sleep(30)
+    wait = WebDriverWait(driver, 20)
 
-    for i in range(10):
+    for i in range(page):
         # ratings = []
         # scores = []
         # stars =[]
@@ -50,9 +49,10 @@ def get_a_thing_done(URL):
         #     stars.append(star)
         prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
         # locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
-        driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
-        for j in len(names):
+        for j in range(len(names)):
             hotel_list[names[j].text] = prices[j].text 
+            
+        driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
     driver.quit()
 
     return hotel_list
