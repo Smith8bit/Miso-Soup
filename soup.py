@@ -26,7 +26,18 @@ stealth(driver,
 insert_hotel_command = "INSERT INTO Tokyo_hotels (hotel_name, review_rating, review_score, hotel_stars, price, location, date) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
 def get_hotel_data(page: int, day: int):
-    url = f"https://www.kayak.com/hotels/Tokyo,Tokyo-Prefecture,Japan-c21033/2026-01-{day}/2026-01-{day+1}/1adults"
+
+    if day == 9:
+        inDay = "09"
+        outDay = "10"
+    if day < 9:
+        inDay = f"0{day}"
+        outDay = f"0{day+1}"
+    if day >= 10:
+        inDay = day
+        outDay = day+1
+
+    url = f"https://www.kayak.com/hotels/Tokyo,Tokyo-Prefecture,Japan-c21033/2026-01-{inDay}/2026-01-{outDay}/1adults"
     driver.get(url)
 
     hotel_list = []
@@ -54,7 +65,7 @@ def get_hotel_data(page: int, day: int):
 
         try:
             for j in range(len(names)):
-                hotel_data = (names[j].text, ratings[j], scores[j], stars[j], prices[j].text, locations[j].text, day)
+                hotel_data = (names[j].text, ratings[j], scores[j], stars[j], prices[j].text, locations[j].text, f"01-{inDay}")
                 hotel_list.append(hotel_data)
         except:
             continue
