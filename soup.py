@@ -30,43 +30,36 @@ hotel_list = {}
 time.sleep(20)
 wait = WebDriverWait(driver, 10)
 
-# parts = "my loving".split(' ')
-# if len(parts) == 2:
-#     x, y = parts
-#     z = None
-# elif len(parts) == 3:
-#     x, y, z = parts
-# else:
-#     x, y, z = None, None, None 
-#     print("Input does not have 2 or 3 words.")
-
-# # Only print if variables were assigned successfully
-# if x is not None:
-#     print(f'x = {x}, y = {y}, z = {z}')
-
+for i in range(10):
+    ratings = []
+    scores = []
+    stars =[]
+    names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
+    reviews = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "DOkx")))
+    for review in reviews:
+        rinfo = review.text.split('\n')
+        if len(rinfo) == 2:
+            rr, rs = rinfo
+            star = "0 stars"
+        if len(rinfo) == 3:
+            rr, rs, star = rinfo
+        ratings.append(rr)
+        scores.append(rs)
+        stars.append(star)
+    prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
+    locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
+    print(f"page {i+1} have {len(names)} {len(ratings)} {len(scores)} {len(stars)} {len(prices)} {len(locations)}")
+    
+    driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
 
 # for i in range(10):
-#     names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
-#     ratings = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'Dp6Q')]")))
-#     classes = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//span[contains(@class, 'hEI8')]")))
-#     prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
-#     locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
-#     print(f"page {i+1} have {len(names)} {len(ratings)} {len(classes)} {len(prices)} {len(locations)}")
+#     test_classes = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "DOkx")))
+#     for items in test_classes:
+#         item = items.text.split('\n')
+#         if len(item) == 2:
+#             a,b = item
+#             c = "0"
+#         if len(item) == 3:
+#             a,b,c = item
     
-#     driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
-
-for i in range(10):
-    test_classes = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "DOkx")))
-    for items in test_classes:
-        item = items.text.split('\n')
-        if len(item) == 2:
-            a,b = item
-            c = "0"
-        if len(item) == 3:
-            a,b,c = item
-        print(f"Review rating: {a} Review score: {b} Class: {c}")
-    print(len(test_classes))
-    driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
-    
-
-# driver.quit()
+driver.quit()
