@@ -30,18 +30,17 @@ hotel_list = {}
 time.sleep(20)
 wait = WebDriverWait(driver, 10)
 
-for i in range(0, 1):
+for i in range(0, 10):
     names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
     ratings = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'Dp6Q')]")))
     classes = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//span[contains(@class, 'hEI8')]")))
     prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
     locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
-    for j in range(len(names)):
-        hotel_list[j] = [names[j].text, ratings[j].text, classes[j].text, prices[j].text, locations[j].text]
+    print("page", i, len(names), len(ratings), len(classes), len(prices), len(locations))
+    ##    hotel_list[names[j].text] = [ratings[j].text, classes[j].text, prices[j].text, locations[j].text]
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Next page']"))).click()
 
-    driver.find_element(By.CLASS_NAME, 'A8fY-chevron').click()
-
-for index, detail in hotel_list.items():
-    print(index, detail)
+#for index, detail in hotel_list.items():
+#   print(index, detail)
 
 driver.quit()
