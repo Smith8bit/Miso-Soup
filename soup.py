@@ -3,6 +3,7 @@ from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 import time
 
 options = webdriver.ChromeOptions()
@@ -31,16 +32,41 @@ time.sleep(20)
 wait = WebDriverWait(driver, 10)
 
 for i in range(0, 10):
-    names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
-    ratings = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'Dp6Q')]")))
-    classes = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//span[contains(@class, 'hEI8')]")))
-    prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
-    locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
-    print("page", i, len(names), len(ratings), len(classes), len(prices), len(locations))
-    ##    hotel_list[names[j].text] = [ratings[j].text, classes[j].text, prices[j].text, locations[j].text]
-    wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Next page']"))).click()
+    try:
+        name = hotel.find_element(By.CLASS_NAME, 'c9Hnq-hotel-name').text
+    except NoSuchElementException:
+        name = 'N/A'
+    
+    try:
+        rating = hotel.find_element(By.XPATH, ".//div[contains(@class, 'Dp6Q')]").text
+    except NoSuchElementException:
+        rating = 'N/A'
 
-#for index, detail in hotel_list.items():
-#   print(index, detail)
+    try:
+        hotel_class = hotel.find_element(By.XPATH, ".//span[contains(@class, 'hEI8')]").text
+    except NoSuchElementException:
+        hotel_class = 'N/A'
+
+    try:
+        price = hotel.find_element(By.XPATH, ".//div[contains(@class, 'c1XBO')]").text
+    except NoSuchElementException:
+        price = 'N/A'
+
+    try:
+        location = hotel.find_element(By.XPATH, ".//div[contains(@class, 'upS4')]").text
+    except NoSuchElementException:
+        location = 'N/A'
+
+    if name != 'N/A':
+        hotel_list[name] = [rating, hotel_class, price, location]
+
+    try:
+        driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
+    except NoSuchElementException:
+        print("Could not find the 'Next page' button. Ending scrape.")
+        break
+
+for index, detail in hotel_list.items():
+    print(index, detail)
 
 driver.quit()
