@@ -21,3 +21,7 @@ stealth(driver,
         fix_hairline=True,
         )
 
+for day in range(1,31):
+    soup.get_hotel_data(driver,1,day)
+
+driver.quit()

@@ -4,10 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import sqlite3
 import time
 
-
-
-
-
 def get_hotel_data(driver, page: int, day: int):
     
     insert_hotel_command = "INSERT INTO Tokyo_hotels (hotel_name, review_rating, review_score, hotel_stars, price, location, date) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -58,7 +54,7 @@ def get_hotel_data(driver, page: int, day: int):
 
         with sqlite3.connect("littledb.db") as conn:
             conn.cursor().executemany(insert_hotel_command, hotel_list)
-            print(f"Day {day} : Page {i} inserted successfully")
+            print(f"Day {day} : Page {i+1} inserted successfully")
             
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Next page']"))).click()
     return
