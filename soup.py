@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import sqlite3
 
 options = webdriver.ChromeOptions()
 options.add_argument("start-maximized")
@@ -23,14 +24,16 @@ stealth(driver,
         fix_hairline=True,
         )
 
+
+
 url = "https://www.kayak.com/hotels/Tokyo,Tokyo-Prefecture,Japan-c21033/2026-01-01/2026-01-02/1adults"
 driver.get(url)
 
 hotel_list = {}
 time.sleep(20)
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver)
 
-for i in range(10):
+for i in range(100):
     ratings = []
     scores = []
     stars =[]
@@ -52,14 +55,5 @@ for i in range(10):
     
     driver.find_element(By.XPATH, "//button[@aria-label='Next page']").click()
 
-# for i in range(10):
-#     test_classes = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "DOkx")))
-#     for items in test_classes:
-#         item = items.text.split('\n')
-#         if len(item) == 2:
-#             a,b = item
-#             c = "0"
-#         if len(item) == 3:
-#             a,b,c = item
     
 driver.quit()
