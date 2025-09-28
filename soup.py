@@ -30,23 +30,18 @@ hotel_list = {}
 time.sleep(20)
 wait = WebDriverWait(driver, 10)
 
-hotel_names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
-hotel_ratings = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'Dp6Q')]")))
-print(len(hotel_names))
-print(len(hotel_ratings))
-for i in range(len(hotel_names)):
-    hotel_list[hotel_names[i].text] = hotel_ratings[i].text
+for i in range(0, 1):
+    names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
+    ratings = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'Dp6Q')]")))
+    classes = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//span[contains(@class, 'hEI8')]")))
+    prices = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'c1XBO')]")))
+    locations = wait.until(EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'upS4')]")))
+    for j in range(len(names)):
+        hotel_list[j] = [names[j].text, ratings[j].text, classes[j].text, prices[j].text, locations[j].text]
 
-for name, rating in hotel_list.items():
-    print(name, rating)
+    driver.find_element(By.CLASS_NAME, 'A8fY-chevron').click()
 
-#for i in range(0, 1):
- #   hotel_names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'c9Hnq-hotel-name')))
-  #  hotel_ratings = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '#resultWrapper > div.c71z4 > div:nth-child(5) > div > div > div.S0Ps-resultInner > div.S0Ps-middleSection > div.c9Hnq.c9Hnq-mod-spacing-default > div > div.c9Hnq-review-rating-resultinfo-wrapper > div > div.DOkx-rating-review-score > div')))
-   # hotel_zipped = zip(hotel_names,hotel_ratings)
-    #for j in len(hotel_zipped):
-     #   hotel_names.updat
-
-#    driver.find_element(By.CLASS_NAME, 'A8fY-chevron').click()
+for index, detail in hotel_list.items():
+    print(index, detail)
 
 driver.quit()
