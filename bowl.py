@@ -23,12 +23,12 @@ stealth(driver,
         )
 
 start_date = datetime.date(2025, 12, 1)
-end_date = datetime.date(2025, 12, 10)
+end_date = datetime.date(2026, 12, 31)
 delta = datetime.timedelta(days=1)
 
 while (start_date <= end_date):
     next_date = start_date+delta
-    ks.get_hotel_data(driver,1,[start_date,next_date])
+    ks.get_hotel_data(driver,50,[start_date,next_date])
     start_date += delta
 
 driver.quit()

@@ -11,7 +11,7 @@ def get_hotel_data(driver, pages: int, date):
     driver.get(url)
     print(f"----Start scraping {date[0]}----")
     wait = WebDriverWait(driver, 20)
-    time.sleep(20)
+    time.sleep(25)
 
     sql_command = "INSERT INTO Tokyo_hotels (hotel_name, review_rating, review_score, hotel_stars, price, location, date) VALUES (?, ?, ?, ?, ?, ?, ?)"
     with sqlite3.connect("littledb.db") as conn:
@@ -23,9 +23,9 @@ def get_hotel_data(driver, pages: int, date):
             except:
                 print(f'Hotel containers of {date[0]} is not available')
                 continue
-            print(f'    Scraping page {page+1} of {date[0]}')
+            print(f' Scraping page {page+1} of {date[0]}')
 
-            time.sleep(5) 
+            time.sleep(7) 
 
             for card in container:
                 try:
