@@ -1,7 +1,7 @@
-import soup
 import kombu_soup as ks
 from selenium import webdriver
 from selenium_stealth import stealth
+import datetime
 
 options = webdriver.ChromeOptions()
 options.add_argument("start-maximized")
@@ -22,13 +22,13 @@ stealth(driver,
         fix_hairline=True,
         )
 
-list_of_date = [
-    ['2026-01-01', '2026-01-02'],
-    ['2026-01-02', '2026-01-03'],
-    ['2026-01-03', '2026-01-04'],
-]
+start_date = datetime.date(2025, 12, 1)
+end_date = datetime.date(2025, 12, 10)
+delta = datetime.timedelta(days=1)
 
-for day in list_of_date:
-    ks.get_hotel_data(driver, 5, day)
+while (start_date <= end_date):
+    next_date = start_date+delta
+    ks.get_hotel_data(driver,1,[start_date,next_date])
+    start_date += delta
 
 driver.quit()
