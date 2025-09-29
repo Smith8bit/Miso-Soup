@@ -19,11 +19,11 @@ def get_hotel_data(driver, page: int, day: int):
     print(f"Fetching URL for check-in day: {inDay}")
     driver.get(url)
 
-    time.sleep(20)
     wait = WebDriverWait(driver, 20)
     hotel_list = []
 
     for i in range(page):
+        wait.until(EC.presence_of_element_located(By., ))
         ratings = []
         scores = []
         stars =[]
