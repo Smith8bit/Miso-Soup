@@ -1,4 +1,5 @@
 import soup
+import kombu_soup as ks
 from selenium import webdriver
 from selenium_stealth import stealth
 
@@ -21,7 +22,13 @@ stealth(driver,
         fix_hairline=True,
         )
 
-for day in range(1,31):
-    soup.get_hotel_data(driver,1,day)
+list_of_date = [
+    ['2026-01-01', '2026-01-02'],
+    ['2026-01-02', '2026-01-03'],
+    ['2026-01-03', '2026-01-04'],
+]
+
+for day in list_of_date:
+    ks.get_hotel_data(driver, 5, day)
 
 driver.quit()

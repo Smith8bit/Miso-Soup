@@ -23,7 +23,7 @@ def get_hotel_data(driver, page: int, day: int):
     hotel_list = []
 
     for i in range(page):
-        wait.until(EC.presence_of_element_located(By., ))
+        container = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "S0Ps")))
         ratings = []
         scores = []
         stars =[]
