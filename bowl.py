@@ -2,6 +2,7 @@ import kombu_soup as ks
 from selenium import webdriver
 from selenium_stealth import stealth
 import datetime
+import sqlite3
 
 options = webdriver.ChromeOptions()
 options.add_argument("start-maximized")
@@ -26,9 +27,23 @@ start_date = datetime.date(2025, 12, 1)
 end_date = datetime.date(2026, 12, 31)
 delta = datetime.timedelta(days=1)
 
-while (start_date <= end_date):
-    next_date = start_date+delta
-    ks.get_hotel_data(driver,50,[start_date,next_date])
-    start_date += delta
+prefecture = [('Osaka','Japan-p22326'),
+               ('Hokkaido','Japan-p23937'),
+               ('Fukuoka','Japan-p22652'),
+               ('Chiba','Japan-p23829'),
+               ('Kyoto','Japan-p22451'),
+               ('Yamanashi','Japan-p22147'),
+               ('Aichi','Japan-p22694'),
+               ('Nagano','Japan-p22398'),
+               ('Gifu','Japan-p22644'),
+               ('Kanagawa','Japan-p22524'),
+               ('Shizuoka','Japan-p22266')
+            ]
+
+for p in prefecture:
+    while (start_date <= end_date):
+        next_date = start_date+delta
+        ks.get_hotel_data(driver, p, [start_date,next_date])
+        start_date += delta
 
 driver.quit()
