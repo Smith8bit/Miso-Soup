@@ -5,7 +5,7 @@ import sqlite3
 import time
 
 
-def get_hotel_data(driver, place: int, date):
+def get_hotel_data(driver, place, date):
     
     url = f"https://www.kayak.com/hotels/{place[0]}-Prefecture,{place[1]}/{date[0]}/{date[1]}/1adults"
     driver.get(url)
